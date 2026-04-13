@@ -1,0 +1,16 @@
+Delete the vdo-vol1 volume that was created above and confirm the removal. Create a VDO volume called vdo1 of logical size 16GB on the sdc disk.
+Initialise the volume with the XFS file system type, define it for persistence using its device files, create a mount point called /xfsvdo1, attach it to the directory structure, and verify its availability and usage.
+
+
+# vdo remove --name vdo-vol1 --verbose
+# vdo list
+# wipefs -a /dev/sdc 
+# vdo create --name vdo1 --vdoLogicalSize 16G --device /dev/sdc
+# vdo list
+# mkfs.xfs -K /dev/mapper/vdo1
+# mkdir /xfsvdo1
+# blkid		 
+# echo "UUID=XXXXX /xfsvdo1 xfs defaults,x-systemd.requires=vdo.service,discard 0 0">>/etc/fstab		=> if you forget the mount option : check the man vdo page  
+# mount -a 
+# cp -rf /etc/[a-f]* /xfsvdo1/
+# vdostats --human-readable vdo1
